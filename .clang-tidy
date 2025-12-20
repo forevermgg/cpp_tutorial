@@ -1,0 +1,19 @@
+Checks: >
+  bugprone-*,
+  performance-*,
+  cppcoreguidelines-*,
+  -bugprone-too-small-loop-variable, # 关闭无关检查
+  -performance-no-int-to-ptr,
+
+CheckOptions:
+  # 规则1：检测循环变量终值超过1e6（阈值可改，7亿必触发）
+  bugprone-too-small-loop-variable.WarnOnLargeConstant: true
+  bugprone-too-small-loop-variable.LargeConstantThreshold: 1000000
+
+  # 规则2：禁止浮点型做循环变量（精度导致循环失控）
+  cppcoreguidelines-pro-type-vararg.WarningOnly: false
+  bugprone-float-loop-variable.WarnOnly: false # 直接报错
+
+  # 规则3：死循环检测强化
+  bugprone-infinite-loop.DetectInfiniteLoops: true
+  bugprone-infinite-loop.DetectImplicitInfiniteLoops: true
